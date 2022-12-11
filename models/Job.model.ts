@@ -1,12 +1,5 @@
 import mongoose from "mongoose";
-
-interface IJob {
-    company:string,
-    position:string,
-    status:string,
-    createdBy: mongoose.Schema.Types.ObjectId
-
-}
+import { IJob } from "../types";
 
 
 const JobSchema = new mongoose.Schema({

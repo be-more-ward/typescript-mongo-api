@@ -1,37 +1,25 @@
 import {Request, Response,NextFunction} from "express"
 import jwt from "jsonwebtoken"
-
-interface IUserDetailsJWT extends jwt.JwtPayload{
-    userId: string,
-    name:string
-}
-
-declare global {
-    namespace Express{
-        interface Request{
-            user: any
-        }
-    }
-}
+import { UnauthenticatedError } from "../errors"
+import { IUserDetailsJWT } from "../types"
 
 
 
 const auth = (req: Request, res: Response, next: NextFunction)=>{
-    const authHeaders= req.headers.authorization
-    console.log(authHeaders);
-    
+    const authHeaders = req.headers.authorization
+
     if (!authHeaders || !authHeaders.startsWith("Bearer ")){
-        throw new Error("NO token provided - MDW validation")
+        throw new UnauthenticatedError("NO token provided - MDW validation")
     }
     
     const token = authHeaders.split(" ")[1]
     try {
         const {name, userId} = <IUserDetailsJWT>jwt.verify(token, String(process.env.JWT_SECRET))
         req.user = {name, userId}
-        // console.log(req.user)
         next()
+        
     } catch (error) {
-        throw new Error ("Invalid credentials- not auth to this route")
+        throw new UnauthenticatedError ("Invalid credentials- not auth to this route")
     }
 }
 

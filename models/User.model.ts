@@ -1,19 +1,7 @@
-import {Model, model, Schema} from "mongoose";
+import { model, Schema} from "mongoose";
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
-
-interface IUser {
-    name:string,
-    password: string,
-    email:string
-}
-
-interface IUserMethods {
-    comparePassword(pw:string): Promise<boolean>
-    createJWT (): string
-}
-
-type UserModel = Model<IUser, {}, IUserMethods>
+import { IUser, UserModel, IUserMethods } from "../types";
 
 
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
@@ -44,11 +32,6 @@ UserSchema.method("comparePassword", async function(candidatePassword){
     const isMatch = await bcryptjs.compare(candidatePassword, this.password)
     return isMatch
 })
-
-// UserSchema.methods.comparePassword = async function (candidatePassword:string){
-//     const isMatch = await bcryptjs.compare(candidatePassword, this.password)
-//     return isMatch
-// }
 
 UserSchema.method("createJWT", function(): string{
     const token = jwt.sign({name:this.name, userId: this._id}, String(process.env.JWT_SECRET), {expiresIn:"1d"})

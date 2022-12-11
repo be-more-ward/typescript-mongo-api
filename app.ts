@@ -20,7 +20,6 @@ import jobsRouter from "./routes/jobs.routes"
 
 app.use(express.json())
 
-
 // Routes
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/jobs", authenticateUser, jobsRouter)
