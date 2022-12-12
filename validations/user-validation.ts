@@ -1,5 +1,4 @@
 import Joi from "joi";
-import { IUser } from "../models/User.model";
 
 export const UserRegisterSchema = Joi.object({
     name: Joi.string().min(3).max(20).required(),
