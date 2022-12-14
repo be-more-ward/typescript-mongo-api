@@ -23,12 +23,9 @@ export const createJob = async(req:Request, res:Response)=>{
     res.status(200).json({job})
 }
 export const updateJob = async(req:Request, res:Response)=>{
-    const {company, position} = req.body
     const {userId} = req.user
     const {id: jobId} = req.params
-
-    if (!company || !position) throw new BadRequestError("company or position cannot be empty")
-
+        
     const job = await Job.findOneAndUpdate({_id: jobId, createdBy: userId }, req.body, {new:true, runValidators:true})
     if (!job) throw new NotFoundError(`Not job with id: ${jobId}`)
     

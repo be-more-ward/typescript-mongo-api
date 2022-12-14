@@ -6,7 +6,7 @@ export const JobCreateSchema = Joi.object({
 })
 
 export const JobUpdateSchema = Joi.object({
-    company: Joi.string().max(50).required(),
-    position: Joi.string().max(100).required(),
-    status: Joi.string().valid("interview", "declined", "pending").required()
+    company: Joi.string().max(50).optional(),
+    position: Joi.string().max(100).optional(),
+    status: Joi.string().valid("interview", "declined", "pending").optional()
 })
