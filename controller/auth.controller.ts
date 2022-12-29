@@ -4,7 +4,7 @@ import { User } from "../models/User.model"
 
 export const register = async(req:Request, res:Response)=>{
     const user = await User.create({...req.body})
-    res.status(200).json({msg:"success", userCreated: user})
+    res.status(201).json({msg:"success", userCreated: user})
 }
 
 export const login = async(req:Request, res:Response)=>{

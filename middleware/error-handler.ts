@@ -3,19 +3,20 @@ import { CustomAPIError} from "../errors"
 import { StatusCodes } from "http-status-codes"
 
 
+
 // About Error new properties
 // 1) https://bobbyhadz.com/blog/typescript-property-status-does-not-exist-on-type-error
 // 2) https://bobbyhadz.com/blog/typescript-type-undefined-is-not-assignable-to-type-number
 
 
 // *1
-interface Error {
-    statusCode?: number,
-    code? : number,
+interface NewError extends Error {
+    statusCode: number,
+    code : number
 }
 
 
-export const errorHandler = (err: Error, req:Request, res:Response, next:NextFunction)=>{
+export const errorHandler = (err: NewError, req:Request, res:Response, next:NextFunction)=>{
 
     let CustomError ={
         statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
@@ -28,11 +29,11 @@ export const errorHandler = (err: Error, req:Request, res:Response, next:NextFun
         CustomError.message = `Duplication value for email field`
     }
 
-    if (err instanceof CustomAPIError){
+
+    if (err instanceof CustomAPIError){ 
         return res.status(err.statusCode!).json({msg: err.message}) // *2
     }
-    // console.log({err});
-    
+
     return res.status(CustomError.statusCode).json({msg: CustomError.message}) 
     // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({err}) 
 }

@@ -4,9 +4,6 @@ import "express-async-errors"
 import express from "express";
 const app = express()
 
-// Database
-import connectDB from "./DB/connect";
-
 //MIDDLEWARE IMPORTS
 import  {errorHandler} from "./middleware/error-handler";
 import {notFound} from "./middleware/not-found";
@@ -24,24 +21,14 @@ app.use(express.json())
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/jobs", authenticateUser, jobsRouter)
 
+app.post("/test", (req, res)=>{
+    const tt = req.body
+    res.status(200).json({msg: tt})
+})
+
 
 app.use(errorHandler)
 app.use(notFound)
 
 
-
-const port = 3000
-
-const start =async () => {
-    try {
-        connectDB (String(process.env.MONGO_URI))
-        console.log("connected to db");
-
-        app.listen(port, ()=>{
-            console.log(`sv listening port:${port}`);
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
-start()
+export default app

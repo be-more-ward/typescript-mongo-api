@@ -47,9 +47,10 @@ export interface IUserDetailsJWT extends jwt.JwtPayload{
 
 // ERROR 
 
-// declare interface Error {
-//   name: string
-//   message: string
-//   stack?: string
-//   code?: number | string
+// interface newError extends Error {
+//   name: string,
+//   message: string,
+//   stack?: string,
+//   code?: number | string,
+//   statusCode?: number,
 // }
